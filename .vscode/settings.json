@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "operacoes_asteroide.h": "c"
+    }
+}
