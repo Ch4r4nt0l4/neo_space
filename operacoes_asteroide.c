@@ -1,3 +1,19 @@
+/************************************************
+2 * *
+3 * Nome do(a) estudante: Willian Charantola da Costa*
+4 * Trabalho Prático *
+5 * Disciplinas: Algoritmos e Programação II *
+6 * Laboratório de Algoritmos e Programação II *
+7 * Professores: Ivone e Ronaldo *
+8 * Data: 14/11/2025 *
+9 * Versão:   *
+10 * Descrição:Nesse arquivo sao realizadas todas as 
+operacoes especificas do struct asteroide, como criação, 
+verificação de codigo, atualização e exclusao*
+11 * *
+12 *************************************************/
+
+
 #include <stdio.h> 
 #include <stdlib.h>
 #include "operacoes_asteroide.h"
@@ -19,7 +35,7 @@ void menu_asteroides(asteroide *lista_asteroides){
     printf("1 - Inserir novo asteroide \n");
     printf("2 - Atualizar Asteroide \n");
     printf("3 - Excluir Asteroide\n");
-    printf("0 - Encerrar Sessao \n");
+    printf("0 - Voltar ao menu inicial \n");
     printf("Informe o numero da opcao desejada: ");
 
     scanf("%d", &opcao_selecionada);
@@ -61,7 +77,7 @@ void menu_asteroides(asteroide *lista_asteroides){
          printf("1 - Inserir novo asteroide \n");
          printf("2 - Atualizar Asteroide \n");
          printf("3 - Excluir Asteroide\n");
-         printf("0 - Encerrar Sessao \n");
+         printf("0 - Voltar ao menu inicial \n");
          printf("Informe o numero da opcao desejada: ");
          scanf("%d", &opcao_selecionada);
     }
@@ -110,7 +126,6 @@ void insere_asteroide(asteroide *lista_asteroide, asteroide novo_asteroide){
            
 
 
-               /*chamar função para inserir vetor de minérios*/ 
 
                  novo_elemento->codigo = novo_asteroide.codigo;
                  novo_elemento->diametro = novo_asteroide.diametro;
@@ -168,7 +183,7 @@ void insere_minerais(asteroide *lista_asteroides){
 
 
 
-        /*MELHORAR ISSO AQUIaqui adicionar os minerais percorrendo o vetor do asteroide escolhido*/
+        
 
         for(i = 0; i < QTD_MAX_MINERIOS; i++){
 
@@ -198,7 +213,7 @@ void imprime_lista_asteroides(asteroide *lista_asteroide){
 
     asteroide *p; 
 
-    p = lista_asteroide->prox; /* VERIFICAR SE É ASSIM MESMO QUE DEVO FAZER1*/
+    p = lista_asteroide->prox; 
 
 
     while (p != NULL) {
@@ -289,8 +304,6 @@ void atualiza_campos_asteroide(asteroide *lista_asteroides){
     }
 }
 
-/*melhorar essa função para verificar se a variavel de retorno 
-não esta vazia e adicionar mensagem de erro ou de sucesso*/
 
 
  asteroide excluir_asteroide(asteroide *lista_asteroide){

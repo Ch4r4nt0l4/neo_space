@@ -27,7 +27,7 @@ struct asteroide{
 
 typedef struct asteroide asteroide; 
 
-/* funcoes*/
+
 void init2(void);
 void menu_asteroides(asteroide *lista_asteroides);
 void insere_asteroide(asteroide *lista_asteroide, asteroide novo_asteroide);
