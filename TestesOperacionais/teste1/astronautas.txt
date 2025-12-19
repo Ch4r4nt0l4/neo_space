@@ -1,0 +1,5 @@
+1, Joao, piloto
+2, Ana, biologa
+3, Marcos, engenheiro
+4, Lia, programadora
+5, Igor, minerador

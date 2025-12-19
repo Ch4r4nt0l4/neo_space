@@ -1,3 +1,17 @@
+/************************************************
+2 * *
+3 * Nome do(a) estudante: Willian Charantola da Costa*
+4 * Trabalho Prático *
+5 * Disciplinas: Algoritmos e Programação II *
+6 * Laboratório de Algoritmos e Programação II *
+7 * Professores: Ivone e Ronaldo *
+8 * Data: 14/11/2025 *
+9 * Versão:   *
+10 * Descrição: Nesse arquivo sao realizadas todas as 
+operacoes especificas do struct missao, como criação, 
+verificação de codigo, atualização e exclusao *
+11 * *
+12 *************************************************/
 
 #include "operacoes_missoes.h"
 
@@ -10,6 +24,7 @@ void menu_missoes(missao *lista_missoes){
     printf("1 - Planejar nova missao \n");
     printf("2 - Atualizar missao \n");
     printf("3 - Excluir missao\n");
+    printf("4 - Listar todas as missoes\n");
     printf("0 - Voltar ao menu principal \n");
     printf("Informe o numero da opcao desejada: ");
     scanf("%d", &opcao_selecionada);
@@ -33,7 +48,12 @@ void menu_missoes(missao *lista_missoes){
             /* Função para excluir missão */
             printf(" Excluir missao selecionado\n");
             excluir_missao(lista_missoes);
-            break;              
+            break;     
+            
+        case 4: 
+
+           imprime_lista_missoes(lista_missoes);
+           break;
 
         
         default:
@@ -45,6 +65,7 @@ void menu_missoes(missao *lista_missoes){
         printf("1 - Planejar nova missao \n");
         printf("2 - Atualizar missao \n");
         printf("3 - Excluir missao\n");
+        printf("4 - Listar todas as missoes\n");
         printf("0 - Voltar ao menu principal \n");
         printf("Informe o numero da opcao desejada: ");
         scanf("%d", &opcao_selecionada);
@@ -65,10 +86,12 @@ void insere_missao_ordenada(missao *lista_missoes, missao nova_missao){
         novo_elemento->codigo_missao = nova_missao.codigo_missao;
         novo_elemento->prioridade = nova_missao.prioridade;
         novo_elemento->duracao_dias = nova_missao.duracao_dias;
-        novo_elemento->qtd_tripulantes = nova_missao.qtd_tripulantes;
+        
         strcpy(novo_elemento->nome_missao, nova_missao.nome_missao);
-        strcpy(novo_elemento->data_lancamento, nova_missao.data_lancamento);
-        /* Copiar tripulantes se necessário */
+        
+        strcpy(novo_elemento->status_missao, nova_missao.status_missao);
+    
+       
 
         p = lista_missoes;
 
@@ -87,6 +110,7 @@ void insere_missao_ordenada(missao *lista_missoes, missao nova_missao){
     }
 
 }
+
 missao cria_nova_missao(void){
 
     missao nova_missao; 
@@ -97,22 +121,15 @@ missao cria_nova_missao(void){
     printf("\n Informe o nome da missao: ");
     scanf(" %[^\n]", nova_missao.nome_missao);
 
-    printf("\n Informe a prioridade da missao (1- alta, 2- media, 3- baixa): ");
+    printf("\n Informe a prioridade da missao (De 1 a 10): ");
     scanf("%d", &nova_missao.prioridade);
-
-    printf("\n Informe a data de lancamento (DD/MM/AAAA): ");
-    scanf(" %[^\n]", nova_missao.data_lancamento);
 
     printf("\n Informe a duracao em dias da missao: ");
     scanf("%d", &nova_missao.duracao_dias);
 
-    printf("\n Informe a quantidade de tripulantes: ");
-    scanf("%d", &nova_missao.qtd_tripulantes);
-
-    /*Aqui poderia haver código para inserir os tripulantes, se necessário*/
+    strcpy(nova_missao.status_missao, "Montagem");
 
      return nova_missao;
-
 
 }   
 
@@ -129,9 +146,7 @@ void imprime_lista_missoes(missao *lista_missoes){
         printf("Codigo Missao: %d\n", p->codigo_missao);
         printf("Nome Missao: %s\n", p->nome_missao);
         printf("Prioridade: %d\n", p->prioridade);
-        printf("Data Lancamento: %s\n", p->data_lancamento);
         printf("Duracao (dias): %d\n", p->duracao_dias);
-        printf("Quantidade Tripulantes: %d\n", p->qtd_tripulantes);
         printf("-------------------------------\n");
 
         p = p->prox;
@@ -163,8 +178,9 @@ int verifica_codigo_missao(missao *lista_missoes, int codigo_inserido){
 
 missao excluir_missao(missao *lista_missoes){
 
-    int codigo_missao; 
+    int codigo_missao, verificador; 
     missao *p, *q, celula_removida;
+
 
     q = lista_missoes;
     p = lista_missoes->prox;
@@ -172,9 +188,15 @@ missao excluir_missao(missao *lista_missoes){
     printf("\n==========EXCLUIR MISSAO==========");
     printf("\n Informe o codigo da missao: ");
     scanf("%d", &codigo_missao);
+
+    verificador = verifica_codigo_missao(lista_missoes, codigo_missao);
+     
     
-    
-    while (p != NULL){
+
+    if(verificador != 0){ 
+
+
+        while (p != NULL){
 
         if(p->codigo_missao == codigo_missao){
 
@@ -190,61 +212,137 @@ missao excluir_missao(missao *lista_missoes){
 
     return celula_removida;
 
+        
+    } else{
+
+        printf("\n A missao informada nao existe!"); 
+        celula_removida.codigo_missao = -1;
+        return celula_removida;
+    }
+    
+    
+
 }
+
 
 void salva_missoes_arquivo(missao *lista_missoes){
 
     FILE *arquivo;
     missao *p;
+    int i;
 
     arquivo = fopen("missoes.txt", "w");
 
-    p = lista_missoes->prox; 
-
     if(arquivo != NULL){
 
-         while(p != NULL){
+        p = lista_missoes->prox; 
 
-             fprintf(arquivo, " %d, %s, %d, %s, %d, %d\n", p->codigo_missao, p->nome_missao, p->prioridade, p->data_lancamento, p->duracao_dias, p->qtd_tripulantes ); 
-             p = p->prox;
-         }
+        while(p != NULL){
 
-          printf("\n Missoes salvas com sucesso!");
+            fprintf(arquivo, "%d, %s, %s, %d, %d\n",
+                    p->codigo_missao,
+                    p->nome_missao,
+                    p->status_missao,
+                    p->prioridade,
+                    p->duracao_dias);
+            
+            for (i = 0; i < QTD_MAX_TRIPULANTES; i++) {
+                fprintf(arquivo, "%d %s %s\n",
+                        p->tripulantes[i].codigo,
+                        p->tripulantes[i].nome,
+                        p->tripulantes[i].especialidade); 
+            }
 
-          fclose(arquivo);
+            p = p->prox;
+        }
 
-    } else{ 
+        printf("\n Missoes salvas com sucesso!");
+        fclose(arquivo);
 
+    } else { 
         printf("\n ERRO na abertura do arquivo");
     }
-
 }
 
-void busca_missoes_arquivo(missao *lista_missoes){
+
+
+void busca_missoes_arquivo(missao *lista_missoes) {
 
     FILE *arquivo;
     missao nova_missao; 
+    int i;
+    int lidos;
 
     arquivo = fopen("missoes.txt", "r");
 
-    if(arquivo != NULL){
+    if (arquivo != NULL) {
 
-         while(fscanf(arquivo, " %d, %49[^,], %d, %10[^,], %d, %d\n", &nova_missao.codigo_missao, nova_missao.nome_missao, &nova_missao.prioridade, nova_missao.data_lancamento, &nova_missao.duracao_dias, &nova_missao.qtd_tripulantes) != EOF){
+        /* 
+           Lê enquanto conseguir ler TODAS as 5 informações do cabeçalho.
+           fscanf retorna a quantidade de itens convertidos com sucesso.
+        */
+        while ( (lidos = fscanf(arquivo,
+                                " %d, %49s, %9s, %d, %d",
+                                &nova_missao.codigo_missao,
+                                nova_missao.nome_missao,
+                                nova_missao.status_missao,
+                                &nova_missao.prioridade,
+                                &nova_missao.duracao_dias)) == 5 ) {
 
-             insere_missao_ordenada(lista_missoes, nova_missao);
-         }
+            /* Lê os QTD_MAX_TRIPULANTES tripulantes */
+            for (i = 0; i < QTD_MAX_TRIPULANTES; i++) {
 
-          printf("\n Missoes carregadas com sucesso!");
+                lidos = fscanf(arquivo,
+                               " %d %49s %49s",
+                               &nova_missao.tripulantes[i].codigo,
+                               nova_missao.tripulantes[i].nome,
+                               nova_missao.tripulantes[i].especialidade);
 
-          fclose(arquivo);
+                if (lidos != 3) {
+                    printf("\nERRO: Ao ler tripulantes.\n");
+                    fclose(arquivo);
+                    return;
+                }
+            }
 
-    } else{ 
+            nova_missao.prox = NULL;
+            insere_missao_ordenada(lista_missoes, nova_missao);
+        }
 
+        /* Se saiu do while por EOF (lidos == EOF), tudo bem.
+           Se saiu por lidos != 5 e != EOF, o arquivo estava mal formatado. 
+        */
+
+        printf("\n Missoes carregadas com sucesso!");
+        fclose(arquivo);
+
+    } else { 
         printf("\n ERRO na abertura do arquivo");
     }
-
 }
 
 
-/* Lançar missão  */
+
+/*essa funcao procura a missao com base no status e retorna o ponteiro para ela*/
+missao *procura_missao(missao *lista_missao, char parametro_busca[]){
+
+    missao *missao_selecionada, *p;
+    
+    p = lista_missao; 
+
+    while(p != NULL){
+
+        if( strcmp(p->status_missao, parametro_busca) == 0){
+
+            missao_selecionada = p;
+            return missao_selecionada; 
+        }
+
+        p = p->prox; 
+    }
+
+    return NULL; 
+
+
+}
 

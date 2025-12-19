@@ -1,0 +1,2 @@
+1, ExploracaoInicial, planejada, 1, 10
+

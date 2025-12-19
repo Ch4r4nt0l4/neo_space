@@ -1,0 +1,7 @@
+1, 1200.00, 280, Livre, 2
+101, Ferro, 40
+102, Ouro, 5
+2, 3000.00, 600, Livre, 3
+201, Platina, 3
+202, Niquel, 80
+203, Cobalto, 50

@@ -1,0 +1,10 @@
+1, Joao, piloto
+2, Ana, biologa
+3, Marcos, engenheiro
+4, Lia, programadora
+5, Igor, minerador
+6, Carla, cientista
+7, Paulo, medico
+8, Renata, analista
+9, Bruno, navegante
+10, Sonia, mecanica

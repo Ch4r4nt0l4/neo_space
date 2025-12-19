@@ -1,28 +1,21 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include <string.h>
+#include "operacoes_astronautas.h"
 
 
-#define QTD_MAX_TRIPULANTES 10
+#define QTD_MAX_TRIPULANTES 3
 
-struct tripulantes
-{
-    int codigo_tripulante; 
-    char nome_tripulante[50];
-};
-
-typedef struct tripulantes tripulante;
 
 struct missao{
 
     int codigo_missao; 
     char nome_missao[50];
     char status_missao[10];
+    int codigo_asteroide; 
     int prioridade;
-    char data_lancamento[11];
     int duracao_dias;
-    int qtd_tripulantes;
-    tripulante tripulantes[QTD_MAX_TRIPULANTES];
+    astronauta tripulantes[QTD_MAX_TRIPULANTES];
     struct missao *prox; 
     
 };
@@ -38,3 +31,4 @@ int verifica_codigo_missao(missao *lista_missoes, int codigo_inserido);
 missao excluir_missao(missao *lista_missoes);
 void salva_missoes_arquivo(missao *lista_missoes);
 void busca_missoes_arquivo(missao *lista_missoes);
+missao *procura_missao(missao *lista_missao, char parametro_busca[]);
